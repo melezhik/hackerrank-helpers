@@ -11,7 +11,7 @@ sub dumpme {
 }
 
 sub logme {
-    return;
+    #return;
     print join " ", @_;
     print "\n";
 }
