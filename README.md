@@ -6,8 +6,17 @@ HackerRank helpers
 ```perl
 use Data::Dumper;
 
+sub dumparray {
+    # return
+    my $label = shift;
+    print "$label: ", "[", join ", ", @_;
+    print "]\n";
+}
+
 sub dumpme {
-    print Dumper(@_);
+    # return
+    my $label = shift;
+    print "$label:",Dumper(@_);
 }
 
 sub logme {
