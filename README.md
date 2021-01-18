@@ -1,4 +1,4 @@
-# hackerrunk-helpers
+# hackerrank-helpers
 
 HackerRank helpers
 
