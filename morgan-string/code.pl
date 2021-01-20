@@ -4,8 +4,8 @@ use strict;
 use warnings;
 
 use Data::Dumper;
-
-our $LOGME = 1;
+# Complete the morganAndString function below.
+our $LOGME = 0;
 
 sub dumparray {
     return unless $LOGME;    
@@ -26,6 +26,41 @@ sub logme {
     print "\n";
 }
 
+our @a;
+our @b;
+
+sub cmp_chars {
+
+    my $i = shift;
+    my $j = shift;
+
+    return 1 if $i gt $j;
+
+    return -1 if $i lt $j;
+
+    return -1 unless @a; # a considered is less then b if there is no following elements in @a
+
+    return 1 unless @b; # a considered is greater then b if there is no following elements in @b
+    
+    my @aa = @a;
+    my @bb = @b;
+    
+    #return 0;
+    
+    while (1){
+       my $a = shift @aa;
+       my $b = shift @bb;
+       return -1 if $a lt $b;
+       return 1  if $a gt $b;
+       return -1 unless @aa;
+       return 1 unless @bb;
+    }
+    
+    return 0;
+    
+}
+
+
 # Complete the morganAndString function below.
 sub morganAndString {
 
@@ -35,10 +70,10 @@ sub morganAndString {
     logme("a",$a);
     logme("b",$b);
     
-    my @a = split //,$a;
-    my @b = split //,$b;
+    @a = split //,$a;
+    @b = split //,$b;
     
-    my @result;
+    my $res;
     
     dumparray("a",@a);
 
@@ -46,40 +81,51 @@ sub morganAndString {
  
     my $i = shift @a; my $j = shift @b;   
     
-    my $shift_a = 0; my $shift_b = 0;
+    #my $shift_a = 0; my $shift_b = 0;
     
     while (1){
+       
+      logme("a top",$i);
+      logme("b top",$j);
         
-      if (scalar @a){
-          $i = shift @a if $shift_a;       
+      if (cmp_chars($i,$j) < 1) {
+          $res.=$i;
+          logme("push from a","[$i] [$res]");
+          if (scalar @a){
+              $i = shift @a;
+          } else {
+             if (scalar @b) {
+                  for my $c ($j, @b){
+                    $res.=$c;  
+                    logme("push last chunk from b","[$c] [$res]");   
+                  }
+                  last              
+             } else {
+                 last
+             }
+          }
       } else {
-          
-          $i = "ZZ"
-      }
-      
-      if (scalar @b){
-          $j = shift @b if $shift_b;      
-      } else {
-          $j = "ZZ"
-      }
-      
-      
-      if ($i le $j) {
-          push @result, $i;
-          $shift_a = 1;
-          $shift_b = 0;
-      } else {
-          push @result, $j;
-          $shift_a = 0;
-          $shift_b = 1;
-      }       
+          $res.=$j;
+          logme("push from b","[$j] [$res]");
+          if (scalar @b){
+              $j = shift @b;
+          } else {
+             if (scalar @a) {
+                  for my $c ($i, @a){
+                    $res.=$c; 
+                    logme("push last chunk from a","[$c] [$res]");   
+                  }
+                  last              
+             } else {
+                 last
+             }
+          }
+      }          
     }
 
-    last if $i eq "ZZ" && $j eq "ZZ";
 
-    return join "", @result; 
+    return $res; 
 }
-
 open(my $fptr, '>', $ENV{'OUTPUT_PATH'});
 
 my $t = <>;
