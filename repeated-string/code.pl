@@ -43,15 +43,24 @@ sub repeatedString {
     my $n = shift;
     logme("n",$n);
   
-    my $ss = $s;
+    my @chars = (split "", $s);
+    my $chars = scalar @chars;
+    logme("chars",$chars);
+    
+    my @a = grep {$_ eq "a"} (split "", $s);
 
-    while (length($ss) <= $n){
-      $ss.=$s;
-      logme("s",$ss);
+    my $cnt = scalar @a;
+    logme("cnt1",$cnt);
+
+    my $i = 1;
+
+    while ($chars < $n) {
+      $cnt *= 2;
+      $chars *= 2;
+      logme("cnt",$cnt);
     }
-    my @a = grep {$_ eq "a"} (split "", $ss)[0 .. $n -1];
-    logme("a's found", scalar @a);
-    return scalar @a;
+    logme("a's found", $cnt);
+    return $cnt;
 }
 
 #open(my $fptr, '>', $ENV{'OUTPUT_PATH'});
