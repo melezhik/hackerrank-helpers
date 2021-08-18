@@ -44,22 +44,35 @@ sub repeatedString {
     logme("n",$n);
   
     my @chars = (split "", $s);
-    my $chars = scalar @chars;
-    logme("chars",$chars);
+
+    my $chunk_len = scalar @chars;
+
+    logme("chunk_len",$chunk_len);
     
     my @a = grep {$_ eq "a"} (split "", $s);
 
-    my $cnt = scalar @a;
-    logme("cnt1",$cnt);
+    my $a_in_chunk = scalar @a;
 
-    my $i = 1;
+    logme("a_in_chunk",$a_in_chunk);
 
-    while ($chars < $n) {
-      $cnt *= 2;
-      $chars *= 2;
-      logme("cnt",$cnt);
+    my $units = int($n/$chunk_len);
+
+    my $cnt = 0;
+    my $rem = $n % $chunk_len;
+
+    logme("rem",$rem);
+
+    if ( $rem == 0){
+      $cnt = $units * $a_in_chunk
+    } else {
+      $cnt = $units * $a_in_chunk;
+      my @aa = grep {$_ eq "a"} (split "", $s)[0 .. $rem - 1];
+      logme("a rem", scalar @aa);
+      $cnt += scalar @aa;
     }
-    logme("a's found", $cnt);
+
+    logme("a's cnt", $cnt);
+    
     return $cnt;
 }
 
