@@ -79,7 +79,7 @@ sub nonDivisibleSubset {
       $res += $f[$i] > $f[$k - $i] ? $f[$i] : $f[$k - $i];
     }
     logme("res:",$res);
-    print $res;
+    return $res;
 }
 
 #open(my $fptr, '>', $ENV{'OUTPUT_PATH'});
